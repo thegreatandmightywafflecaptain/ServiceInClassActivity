@@ -6,9 +6,15 @@ import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
+import android.os.Looper
 import android.widget.Button
+import android.os.Handler
 
 class MainActivity : AppCompatActivity() {
+
+    val handler = Handler(Looper.getMainLooper()) {
+        true
+    }
 
     var timeBinder : TimerService.TimerBinder? = null
 
@@ -33,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             BIND_AUTO_CREATE)
 
         findViewById<Button>(R.id.startButton).setOnClickListener {
-            timeBinder?.start(20)
+            timeBinder?.start(20, handler)
 
         }
 
