@@ -9,6 +9,8 @@ import android.os.IBinder
 import android.os.Looper
 import android.widget.Button
 import android.os.Handler
+import android.view.Menu
+import android.view.MenuItem
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,23 +40,28 @@ class MainActivity : AppCompatActivity() {
             serviceConnection,
             BIND_AUTO_CREATE)
 
-        findViewById<Button>(R.id.startButton).setOnClickListener {
-            timeBinder?.start(20, handler)
-
-        }
-
-        findViewById<Button>(R.id.pauseButton).setOnClickListener {
-            timeBinder?.pause()
-
-        }
-        
-        findViewById<Button>(R.id.stopButton).setOnClickListener {
-            timeBinder?.stop()
-        }
     }
 
     override fun onDestroy(){
         super.onDestroy()
         unbindService(serviceConnection)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.start -> timeBinder?.start(20, handler)
+        }
+        when(item.itemId){
+            R.id.pause -> timeBinder?.pause()
+        }
+        when(item.itemId){
+            R.id.stop -> timeBinder?.stop()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
